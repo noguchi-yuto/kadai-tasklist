@@ -12,13 +12,15 @@
             <thead>
                 <tr>
                     <th>id</th>
+                    <th>ステータス</th>
                     <th>タスク</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($tasks as $task)
                 <tr>
-                    <td><a class="link link-hover text-info" href="{{ route('Tasks.show', $task->id) }}">{{ $task->id }}</a></td>
+                    <td><a class="link link-hover text-info" href="{{ route('tasks.show', $task->id) }}">{{ $task->id }}</a></td>
+                    <td>{{ $task->status }}</td>
                     <td>{{ $task->content }}</td>
                 </tr>
                 @endforeach
@@ -26,5 +28,5 @@
         </table>
     @endif
     {{-- タスク作成ページへのリンク --}}
-    <a class="btn btn-primary" href="{{ route('Tasks.create') }}">新規タスクの作成</a>
+    <a class="btn btn-primary" href="{{ route('tasks.create') }}">新規タスクの作成</a>
 @endsection

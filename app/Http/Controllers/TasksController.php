@@ -26,7 +26,6 @@ class TasksController extends Controller
     public function create()
     {
         $task = new Task;
-
         // タスク作成ビューを表示
         return view('tasks.create', [
             'task' => $task,
@@ -38,9 +37,15 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+        //バリデーション
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required',
+            ]);
         // タスクを作成
         $task = new Task;
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
 
         // トップページへリダイレクトさせる
@@ -68,7 +73,6 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-
         // タスク編集ビューでそれを表示
         return view('tasks.edit', [
             'task' => $task,
@@ -82,8 +86,14 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
+        //バリデーション
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required',
+            ]);
         // タスクを更新
         $task->content = $request->content;
+        $task->status = $request->status;
         $task->save();
 
         // トップページへリダイレクトさせる
