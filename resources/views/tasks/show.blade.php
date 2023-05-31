@@ -27,7 +27,7 @@
     {{-- タスク編集ページへのリンク --}}
     <a class="btn btn-outline" href="{{ route('tasks.edit', $task->id) }}">このタスクを編集</a>
     {{-- タスク削除フォーム --}}
-    <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" class="my-2">
+        <form method="POST" action="{{ route('tasks.destroy', $task->id) }}" class="my-2">
         @csrf
         @method('DELETE')
         

@@ -1,0 +1,35 @@
+# fly.toml app configuration file generated for kadai-tasklist on 2023-05-24T04:27:32Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "kadai-tasklist"
+primary_region = "nrt"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.1"
+
+[env]
+  APP_ENV = "production"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  APP_URL = "https://kadai-tasklist.fly.dev"
+  APP_NAME ="kadai"
+  APP_DEBUG = false
+  DB_CONNECTION = "pgsql"
+  DB_HOST = "db.vkxlaxstvlgcjgskefyq.supabase.co"
+  DB_PORT = "5432"
+  DB_DATABASE = "postgres"
+  DB_USERNAME = "postgres"
+  
+  
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
