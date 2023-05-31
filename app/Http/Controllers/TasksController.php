@@ -41,18 +41,16 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        if(\Auth::id()===$task->user_id){
-            //バリデーション
-            $request->validate([
-                'content' => 'required',
-                'status' => 'required|max:10',
-                ]);
-            // タスクを作成
-            $request->user()->tasks()->create([
-                'content'=>$request->content,
-                'status'=>$request->status,
-            ]);            
-        }
+        //バリデーション
+        $request->validate([
+            'content' => 'required',
+            'status' => 'required|max:10',
+            ]);
+        // タスクを作成
+        $request->user()->tasks()->create([
+            'content'=>$request->content,
+            'status'=>$request->status,
+        ]);            
         // トップページへリダイレクトさせる
         return redirect('/');
     }
@@ -64,11 +62,12 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-
-        // タスク詳細ビューでそれを表示
-        return view('tasks.show', [
-            'task' => $task,
-        ]);
+        if(\Auth::id()===$task->user_id){
+            // タスク詳細ビューでそれを表示
+            return view('tasks.show', [
+                'task' => $task,
+            ]);
+        }
     }
 
     /**
@@ -78,10 +77,12 @@ class TasksController extends Controller
     {
         // idの値でタスクを検索して取得
         $task = Task::findOrFail($id);
-        // タスク編集ビューでそれを表示
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if(\Auth::id()===$task->user_id){
+            // タスク編集ビューでそれを表示
+            return view('tasks.edit', [
+                'task' => $task,
+            ]);
+        }
     }
 
     /**
@@ -90,9 +91,8 @@ class TasksController extends Controller
     public function update(Request $request, string $id)
     {
         // idの値でタスクを検索して取得
-        
+        $task = Task::findOrFail($id);
         if(\Auth::id()===$task->user_id){
-            $task = Task::findOrFail($id);
             //バリデーション
             $request->validate([
                 'status' => 'required|max:10',
@@ -113,13 +113,11 @@ class TasksController extends Controller
     public function destroy(string $id)
     {
         // idの値でタスクを検索して取得
+        $task = Task::findOrFail($id);
+        // タスクを削除
         if(\Auth::id()===$task->user_id){
-            $task = Task::findOrFail($id);
-            // タスクを削除
-            if(\Auth::id()===$task->user_id){
-                $task->delete();
-            }            
-        }
+            $task->delete();
+        }            
         // トップページへリダイレクトさせる
         return redirect('/');
     }
